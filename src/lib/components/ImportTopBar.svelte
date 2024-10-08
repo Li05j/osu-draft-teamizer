@@ -5,6 +5,7 @@
     const toastStore = getToastStore()
 
     let user_id = "";
+    let players: OsuUserInfo[] = [];
 
     const submituserId = async () => {
         try {
@@ -20,7 +21,10 @@
 
             const full_user_info = await geUserInfo(token);
             const selected_user_info = filterUserInfo(full_user_info);
-            console.log(selected_user_info)
+            
+            players.push(selected_user_info);
+
+            console.log(players);
 
             toastStore.trigger({
                 message: `✓ User Id submitted: ${user_id}`,
