@@ -67,6 +67,12 @@
             const updatedPlayers = parsedPlayers.filter(player => player.user_id !== user_id);
             localStorage.setItem('players', JSON.stringify(updatedPlayers));
         }
+
+        toastStore.trigger({
+            message: `✓ User not in storage anymore`,
+            background: 'bg-zinc-800 text-green-400 text-center',
+            timeout: 2500,
+        });
     }
 
     async function getGuestToken(): Promise<string> {
@@ -151,20 +157,20 @@
         />
         <button
             on:click={submituserId}
-            class="bg-blue-500 text-white px-4 py-2 rounded"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-lg transition"
         >
             Submit User Id
         </button>
         <button
             on:click={deleteUserId}
-            class="bg-red-500 text-white px-4 py-2 rounded"
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 hover:shadow-lg transition"
         >
             Delete User Id
         </button>
     </div>
     <button
         on:click={saveChanges}
-        class="bg-blue-500 text-white px-4 py-2 rounded"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-lg transition"
     >
         Save Changes
     </button>

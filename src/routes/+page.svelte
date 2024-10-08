@@ -24,10 +24,7 @@
 </script>
 
 <div class="flex h-screen">
-	<!-- Sidebar -->
 	<Sidebar {switchView} />
-  
-	<!-- Main Content (ImportTopBar and PlayerList) -->
 	<div class="flex-1">
 		{#if currentView === 'import'}
 			<ImportTopBar />
