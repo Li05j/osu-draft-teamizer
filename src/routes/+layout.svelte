@@ -23,7 +23,7 @@
 			</nav>
 		</div>
 	{:else}
-		<div class={`bg-gray-800 text-white transition-all h-screen 'w-12'`}>
+		<div class={`bg-gray-800 text-white transition-all h-screen 'w-16'`}>
 			<button on:click={() => sidebarOpen = true} class="p-4">
 				<img src={List} alt="Show Sidebar" class="w-6 h-6" />
 			</button>
