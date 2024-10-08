@@ -82,6 +82,10 @@
         return data;
     }
 
+    function saveChanges() {
+        return;
+    }
+
     function filterUserInfo(info): OsuUserInfo {
         let user_info: OsuUserInfo = {
             user_id: user_id,
@@ -100,18 +104,26 @@
 </script>
   
 <div class="bg-gray-200 p-4 flex justify-between items-center">
-    <input
-        type="text"
-        placeholder="Enter Osu User ID"
-        bind:value={user_id}
-        on:input={restrictToNumbers}
-        class="border p-2 rounded text-black placeholder-gray-400"
-    />
+    <div class="flex space-x-2">
+        <input
+            type="text"
+            placeholder="Enter Osu User ID"
+            bind:value={user_id}
+            on:input={restrictToNumbers}
+            class="border p-2 rounded text-black placeholder-gray-400"
+        />
+        <button
+            on:click={submituserId}
+            class="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+            Submit User Id
+        </button>
+    </div>
     <button
-        on:click={submituserId}
+        on:click={saveChanges}
         class="bg-blue-500 text-white px-4 py-2 rounded"
     >
-        Submit
+        Save Changes
     </button>
 </div>
   
