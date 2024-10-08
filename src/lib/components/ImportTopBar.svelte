@@ -5,7 +5,39 @@
 
     let userId = "";
 
-    const submitUserId = () => {
+    const submitUserId = async () => {
+        // 1. Check if token exists
+        let token = localStorage.getItem('guestToken');
+        const expiresAt = Number(localStorage.getItem('tokenExpiresAt'));
+
+        // 2. If no token or token is expired
+        if (!token || (Date.now() > expiresAt)) {
+            console.log("Token doesn't exist or has expired, requesting new token...");
+            try {
+                const response = await fetch('/api/get_token', { method: 'POST' });
+                const data = await response.json();
+
+                console.log(data)
+
+                // Check if we got the token
+                if (!data.access_token) throw new Error('Token is null or undefined');
+                // Store the token and expiration time
+                localStorage.setItem('guestToken', data.access_token);
+
+                const expires_at = Date.now() + Number(data.expires_in) * 1000
+                localStorage.setItem('tokenExpiresAt', expires_at.toString());
+                
+                console.log("New token stored:", token);
+            } catch (error) {
+                console.error("Failed to fetch new token:", error);
+                toastStore.trigger({
+                    message: `✗ Failed to fetch new token`,
+                    background: 'bg-zinc-800 text-red-400 text-center',
+                    timeout: 2500,
+                });
+                return; // Stop execution if there's an error
+            }
+        }
         toastStore.trigger({
             message: `✓ User Id submitted: ${userId}`,
             background: 'bg-zinc-800 text-green-400 text-center',
