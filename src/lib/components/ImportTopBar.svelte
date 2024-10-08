@@ -3,53 +3,86 @@
 
     const toastStore = getToastStore()
 
-    let userId = "";
+    let user_id = "";
 
-    const submitUserId = async () => {
-        // 1. Check if token exists
-        let token = localStorage.getItem('guestToken');
-        const expiresAt = Number(localStorage.getItem('tokenExpiresAt'));
+    const submituserId = async () => {
+        try {
+            // Check if token exists
+            let token = localStorage.getItem('guestToken');
+            const expiresAt = Number(localStorage.getItem('tokenExpiresAt'));
 
-        // 2. If no token or token is expired
-        if (!token || (Date.now() > expiresAt)) {
-            console.log("Token doesn't exist or has expired, requesting new token...");
-            try {
-                const response = await fetch('/api/get_token', { method: 'POST' });
-                const data = await response.json();
-
-                console.log(data)
-
-                // Check if we got the token
-                if (!data.access_token) throw new Error('Token is null or undefined');
-                // Store the token and expiration time
-                localStorage.setItem('guestToken', data.access_token);
-
-                const expires_at = Date.now() + Number(data.expires_in) * 1000
-                localStorage.setItem('tokenExpiresAt', expires_at.toString());
-                
-                console.log("New token stored:", token);
-            } catch (error) {
-                console.error("Failed to fetch new token:", error);
-                toastStore.trigger({
-                    message: `✗ Failed to fetch new token`,
-                    background: 'bg-zinc-800 text-red-400 text-center',
-                    timeout: 2500,
-                });
-                return; // Stop execution if there's an error
+            // If no token or token is expired
+            if (!token || (Date.now() > expiresAt)) {
+                console.log("Token doesn't exist or has expired, requesting new token...");
+                token = await getGuestToken();
             }
-        }
-        toastStore.trigger({
-            message: `✓ User Id submitted: ${userId}`,
-            background: 'bg-zinc-800 text-green-400 text-center',
-            timeout: 2500,
-        })
 
-        userId = "";
+            const full_user_info = await geUserInfo(token);
+
+            toastStore.trigger({
+                message: `✓ User Id submitted: ${user_id}`,
+                background: 'bg-zinc-800 text-green-400 text-center',
+                timeout: 2500,
+            })
+
+        } catch (error) {
+            console.error("Failed to add user:", error);
+            toastStore.trigger({
+                message: `✗ Failed to add user: ${error}`,
+                background: 'bg-zinc-800 text-red-400 text-center',
+                timeout: 2500,
+            });
+            return; // Stop execution if there's an error
+        }
+
+        user_id = "";
     };
+
+    async function getGuestToken() {
+        const response = await fetch('/api/get_token', { method: 'POST' });
+        const data = await response.json();
+        console.log(data)
+
+        // Check if we got the token
+        const guest_token = data.access_token;
+        if (!guest_token) {
+            throw new Error('Token is null or undefined');
+
+        }
+        // Store the token and expiration time
+        localStorage.setItem('guestToken', guest_token);
+
+        const expires_at = Date.now() + Number(data.expires_in) * 1000
+        localStorage.setItem('tokenExpiresAt', expires_at.toString());
+
+        return guest_token;
+    }
+
+    async function geUserInfo(token) {
+        const response = await fetch(`/api/user_info/${user_id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}` // Send guest_token as Bearer token
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error ("Error in fetching user info.")
+        }
+
+        const data = await response.json();
+        console.log('User Info:', data);
+
+        return filterUserInfo(data);
+    }
+
+    function filterUserInfo(info) {
+        return null;
+    }
 
     function restrictToNumbers(event) {
         // \D matches anything that's not a digit
-        userId = event.target.value.replace(/\D/g, ''); 
+        user_id = event.target.value.replace(/\D/g, ''); 
     }
 </script>
   
@@ -57,12 +90,12 @@
     <input
         type="text"
         placeholder="Enter Osu User ID"
-        bind:value={userId}
+        bind:value={user_id}
         on:input={restrictToNumbers}
         class="border p-2 rounded text-black placeholder-gray-400"
     />
     <button
-        on:click={submitUserId}
+        on:click={submituserId}
         class="bg-blue-500 text-white px-4 py-2 rounded"
     >
         Submit
