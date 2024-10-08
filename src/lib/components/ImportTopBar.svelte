@@ -6,8 +6,6 @@
     let userId = "";
 
     const submitUserId = () => {
-        console.log(`User ID submitted: ${userId}`);
-
         toastStore.trigger({
             message: `✓ User Id submitted: ${userId}`,
             background: 'bg-zinc-800 text-green-400 text-center',
