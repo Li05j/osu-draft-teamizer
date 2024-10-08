@@ -1,8 +1,20 @@
 <script>
+    import { getToastStore } from "@skeletonlabs/skeleton";
+
+    const toastStore = getToastStore()
+
     let userId = "";
 
-    const dummyCallback = () => {
+    const submitUserId = () => {
         console.log(`User ID submitted: ${userId}`);
+
+        toastStore.trigger({
+            message: `✓ User Id submitted: ${userId}`,
+            background: 'bg-zinc-800 text-green-400 text-center',
+            timeout: 2500,
+        })
+
+        userId = "";
     };
 
     function restrictToNumbers(event) {
@@ -20,7 +32,7 @@
         class="border p-2 rounded text-black placeholder-gray-400"
     />
     <button
-        on:click={dummyCallback}
+        on:click={submitUserId}
         class="bg-blue-500 text-white px-4 py-2 rounded"
     >
         Submit

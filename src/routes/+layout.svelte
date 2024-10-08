@@ -1,8 +1,11 @@
 <script>
+	import { initializeStores, Toast } from "@skeletonlabs/skeleton"
 	import '../app.postcss';
 	import List from "$lib/assets/List.svg"
 
 	let sidebarOpen = true;
+
+	initializeStores();
 </script>
 
 <div class="flex">
@@ -27,6 +30,7 @@
 		</div>
 	{/if}
   
+	<Toast />
 	<div class="flex-1">
 		<slot></slot> <!-- Page content will be injected here -->
 	</div>
