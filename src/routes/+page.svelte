@@ -1,4 +1,40 @@
-<!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
+<script lang="ts">
+  	import Sidebar from '$lib/components/Sidebar.svelte';
+  	import ImportTopBar from '$lib/components/ImportTopBar.svelte';
+  	import PlayerList from '$lib/components/PlayerList.svelte';
+
+	import { onMount } from 'svelte';
+	import { players } from '$lib/stores';
+	import { browser } from '$app/environment';
+
+	onMount(() => {
+    	if (browser) { // Only access localStorage if in the browser
+    		const storedPlayers = localStorage.getItem('players');
+    		if (storedPlayers) {
+    			players.set(JSON.parse(storedPlayers)); // Populate store with local storage data
+    		}
+    	}
+  	});
+	
+  	let currentView = 'import'; // Default to Import view
+  	function switchView(view: string) {
+		currentView = view;
+		console.log(currentView)
+  	}
+</script>
+
+<div class="flex h-screen">
+	<!-- Sidebar -->
+	<Sidebar {switchView} />
+  
+	<!-- Main Content (ImportTopBar and PlayerList) -->
+	<div class="flex-1">
+		{#if currentView === 'import'}
+			<ImportTopBar />
+			<PlayerList />
+		{/if}
+	</div>
+</div>
 
 <!-- <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
