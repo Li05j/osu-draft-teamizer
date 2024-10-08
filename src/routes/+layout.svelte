@@ -1,5 +1,7 @@
 <script>
+	import '../app.postcss';
 	import List from "$lib/assets/List.svg"
+
 	let sidebarOpen = true;
 </script>
 
