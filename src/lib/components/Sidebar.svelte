@@ -6,7 +6,7 @@
 </script>
 
 {#if sidebar_open}
-<div class={`bg-gray-800 text-white transition-all h-screen w-48`}>
+<div class={`bg-gray-800 text-white transition-all h-screen w-32`}>
     <button on:click={() => sidebar_open = false} class="p-4">
         <img src={List} alt="Hide Sidebar" class="w-6 h-6" />
     </button>

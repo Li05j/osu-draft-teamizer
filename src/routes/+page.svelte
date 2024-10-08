@@ -4,7 +4,7 @@
   	import PlayerList from '$lib/components/PlayerList.svelte';
 
 	import { onMount } from 'svelte';
-	import { players } from '$lib/stores';
+	import { players, captains } from '$lib/stores';
 	import { browser } from '$app/environment';
 
 	onMount(() => {
@@ -13,13 +13,16 @@
     		if (storedPlayers) {
     			players.set(JSON.parse(storedPlayers)); // Populate store with local storage data
     		}
+    		const storedCaptains = localStorage.getItem('captains');
+    		if (storedCaptains) {
+    			captains.set(JSON.parse(storedCaptains)); // Populate store with local storage data
+    		}
     	}
   	});
 	
   	let currentView = 'import'; // Default to Import view
   	function switchView(view: string) {
 		currentView = view;
-		console.log(currentView)
   	}
 </script>
 
@@ -29,6 +32,8 @@
 		{#if currentView === 'import'}
 			<ImportTopBar />
 			<PlayerList />
+		{:else if currentView === 'draft'}
+
 		{/if}
 	</div>
 </div>
