@@ -38,7 +38,7 @@
             }
 
             toastStore.trigger({
-                message: `✓ User Id submitted: ${user_id}`,
+                message: `✓ User Id added: ${user_id}`,
                 background: 'bg-zinc-800 text-green-400 text-center',
                 timeout: 2500,
             })
@@ -55,6 +55,19 @@
 
         user_id = "";
     };
+
+    function deleteUserId() {
+        // Remove from store
+        players.update(currentPlayers => currentPlayers.filter(player => player.user_id !== user_id));
+
+        // Remove from local storage
+        const storedPlayers = localStorage.getItem('players');
+        if (storedPlayers) {
+            const parsedPlayers = JSON.parse(storedPlayers);
+            const updatedPlayers = parsedPlayers.filter(player => player.user_id !== user_id);
+            localStorage.setItem('players', JSON.stringify(updatedPlayers));
+        }
+    }
 
     async function getGuestToken(): Promise<string> {
         const response = await fetch('/api/get_token', { method: 'POST' });
@@ -141,6 +154,12 @@
             class="bg-blue-500 text-white px-4 py-2 rounded"
         >
             Submit User Id
+        </button>
+        <button
+            on:click={deleteUserId}
+            class="bg-red-500 text-white px-4 py-2 rounded"
+        >
+            Delete User Id
         </button>
     </div>
     <button
