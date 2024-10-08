@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
     import { getToastStore } from "@skeletonlabs/skeleton";
+    import type { OsuUserInfo } from "$lib/interfaces";
 
     const toastStore = getToastStore()
 
@@ -38,7 +39,7 @@
         user_id = "";
     };
 
-    async function getGuestToken() {
+    async function getGuestToken(): Promise<string> {
         const response = await fetch('/api/get_token', { method: 'POST' });
         const data = await response.json();
         console.log(data)
@@ -58,7 +59,7 @@
         return guest_token;
     }
 
-    async function geUserInfo(token) {
+    async function geUserInfo(token: string) {
         const response = await fetch(`/api/user_info/${user_id}`, {
             method: 'GET',
             headers: {
@@ -80,7 +81,7 @@
         return null;
     }
 
-    function restrictToNumbers(event) {
+    function restrictToNumbers(event): void {
         // \D matches anything that's not a digit
         user_id = event.target.value.replace(/\D/g, ''); 
     }

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ImportTopBar from "$lib/components/ImportTopBar.svelte";
 	import PlayerList from "$lib/components/PlayerList.svelte";
 	let players = [
