@@ -19,6 +19,8 @@
             }
 
             const full_user_info = await geUserInfo(token);
+            const selected_user_info = filterUserInfo(full_user_info);
+            console.log(selected_user_info)
 
             toastStore.trigger({
                 message: `✓ User Id submitted: ${user_id}`,
@@ -72,13 +74,19 @@
         }
 
         const data = await response.json();
-        console.log('User Info:', data);
 
-        return filterUserInfo(data);
+        return data;
     }
 
-    function filterUserInfo(info) {
-        return null;
+    function filterUserInfo(info): OsuUserInfo {
+        let user_info: OsuUserInfo = {
+            user_id: user_id,
+            name: info.username,
+            rank: info.statistics.global_rank,
+            pp: info.statistics.pp,
+            pfp_url: info.avatar_url,
+        };
+        return user_info;
     }
 
     function restrictToNumbers(event): void {
