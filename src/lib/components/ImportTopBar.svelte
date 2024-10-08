@@ -1,11 +1,11 @@
 <script lang="ts">
     import { getToastStore } from "@skeletonlabs/skeleton";
     import type { OsuUserInfo } from "$lib/interfaces";
+    import { players } from '$lib/stores';
 
     const toastStore = getToastStore()
 
     let user_id = "";
-    let players: OsuUserInfo[] = [];
 
     const submituserId = async () => {
         try {
@@ -22,9 +22,20 @@
             const full_user_info = await geUserInfo(token);
             const selected_user_info = filterUserInfo(full_user_info);
             
-            players.push(selected_user_info);
+            let duplicate_id = false;
+            players.update(currentPlayers => {
+                if (currentPlayers.some(player => player.user_id === selected_user_info.user_id)) {
+                    duplicate_id = true;
+                    return currentPlayers; // Don't add duplicate
+                }
+                return [...currentPlayers, selected_user_info]; // Add new player
+            });
 
-            console.log(players);
+            console.log($players);
+            
+            if (duplicate_id) {
+                throw new Error('Duplicate user_id.');
+            }
 
             toastStore.trigger({
                 message: `✓ User Id submitted: ${user_id}`,
@@ -83,7 +94,20 @@
     }
 
     function saveChanges() {
-        return;
+        try {
+            localStorage.setItem('players', JSON.stringify($players));
+            toastStore.trigger({
+                message: `✓ Changes saved successfully!`,
+                background: 'bg-zinc-800 text-green-400 text-center',
+                timeout: 2500,
+            })
+        } catch (e) {
+            toastStore.trigger({
+                message: `✗ Save failed for some reason.`,
+                background: 'bg-zinc-800 text-red-400 text-center',
+                timeout: 2500,
+            });
+        }
     }
 
     function filterUserInfo(info): OsuUserInfo {

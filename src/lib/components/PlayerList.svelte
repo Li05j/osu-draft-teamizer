@@ -1,4 +1,5 @@
 <script lang="ts">
+    // import { players } from '$lib/stores';
     export let players = [];
 </script>
 
