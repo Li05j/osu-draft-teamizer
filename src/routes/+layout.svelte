@@ -1,61 +1,23 @@
-<script lang="ts">
-	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
-
-	// Floating UI for Popups
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+<script>
+	let sidebarOpen = true;
 </script>
 
-<!-- App Shell -->
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-
-	<svelte:fragment slot="sidebarLeft">
-	<!-- Insert the list: -->
-	<nav class="list-nav">
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/about">About</a></li>
-		</ul>
-	</nav>
-	<!-- --- -->
-	</svelte:fragment>
-	
-	<!-- Page Route Content -->
-	<slot />
-</AppShell>
+<div class="flex">
+	{#if sidebarOpen}
+		<div class="w-64 bg-gray-800 text-white h-screen">
+			<button on:click={() => sidebarOpen = false} class="text-right p-4">Hide</button>
+			<nav class="p-4">
+				<ul>
+					<li><a href="/draft" class="block py-2">Draft</a></li>
+					<li><a href="/import" class="block py-2">Import</a></li>
+				</ul>
+			</nav>
+		</div>
+	{/if}
+  
+	<div class="flex-1">
+		<button on:click={() => sidebarOpen = true} class="p-4">Show Sidebar</button>
+		<slot></slot> <!-- Page content will be injected here -->
+	</div>
+</div>
+  
