@@ -10,9 +10,6 @@ export async function GET({ params, request }) {
             throw new Error('Authorization token missing');
         }
 
-        console.log(`user id: ${user_id}`)
-        console.log(`url: ${PUBLIC_OSU_API_URL}/users/${user_id}/osu`)
-
         // Only support osu! standard mode fetch
         const response = await fetch(`${PUBLIC_OSU_API_URL}/users/${user_id}/osu`, {
             method: 'GET',
@@ -28,7 +25,6 @@ export async function GET({ params, request }) {
         }
     
         const data = await response.json();
-        console.log(`Fetch data: ${data}`)
         return json(data);
     } catch(e) {
         console.error(e);
