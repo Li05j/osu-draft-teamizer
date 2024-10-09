@@ -3,7 +3,7 @@
 	import TeamCard from './TeamCard.svelte';
 </script>
 
-<div class="w-full text-token grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-full">
     {#each $teams as _, index}
         <TeamCard teamIndex={index} />
     {/each}

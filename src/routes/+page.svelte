@@ -36,28 +36,26 @@
 
 <div class="flex h-screen">
 	<Sidebar {switchView} />
-	<div class="flex-1">
 		{#if currentView === 'import'}
+		<div class="flex-1">
 			<ImportTopBar />
 			<PlayerList />
+		</div>
 		{:else if currentView === 'draft'}
 			{#if startDraft === false}
-				<button on:click={setStartDraft} class="ml-4 bg-blue-500 text-white px-6 py-4 rounded">
-					Start Draft!
+			<div class="flex flex-1 justify-center items-center">
+				<button type="button" on:click={setStartDraft} class="btn bg-pink-200 text-black rounded mx-auto w-64 h-64">
+						Start Draft!
 				</button>
+			</div>
 			{:else}
 				<CaptainBar />
-				<div class="flex flex-grow">
-					<div class="flex">
-						<DraftPlayerSidebar />
-					</div>
-					<div class="flex">
-						<DraftScene />
-					</div>
+                <DraftPlayerSidebar />
+				<div class="flex-1 p-4" style="padding-right: 18rem; padding-bottom: 6rem;">
+					<DraftScene />
 				</div>
 			{/if}
 		{/if}
-	</div>
 </div>
 
 <!-- <div class="container h-full mx-auto flex justify-center items-center">
