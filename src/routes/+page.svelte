@@ -44,14 +44,14 @@
 		{:else if currentView === 'draft'}
 			{#if startDraft === false}
 			<div class="flex flex-1 justify-center items-center">
-				<button type="button" on:click={setStartDraft} class="btn bg-pink-200 text-black rounded mx-auto w-64 h-64">
+				<button type="button" on:click={setStartDraft} class="btn bg-pink-200 text-black rounded mx-auto w-96 h-96 text-2xl">
 						Start Draft!
 				</button>
 			</div>
 			{:else}
 				<CaptainBar />
                 <DraftPlayerSidebar />
-				<div class="flex-1 p-4" style="padding-right: 18rem; padding-bottom: 6rem;">
+				<div class="flex-1">
 					<DraftScene />
 				</div>
 			{/if}
