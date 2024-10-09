@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { players } from '$lib/stores';
+    import { teams, players } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let freePlayers: OsuUserInfo[] = [];
@@ -8,6 +8,20 @@
         freePlayers = $players;
         freePlayers = [...freePlayers].sort((a, b) => a.rank - b.rank);
     });
+
+    function setCaptain(teamIndex: number, captain: OsuUserInfo) {
+        teams.update(currentTeams => {
+            currentTeams[teamIndex].captain = captain;
+            return currentTeams;
+        });
+      }
+
+    function addPlayer(teamIndex: number, player: OsuUserInfo) {
+        teams.update(currentTeams => {
+            currentTeams[teamIndex].players.push(player);
+            return currentTeams;
+        });
+    }
 </script>
 
 <div class="bg-gray-800 text-white fixed right-0 top-0 h-screen w-72 overflow-y-auto">

@@ -1,9 +1,8 @@
 <script lang="ts">
+	import { TEAM_SIZE } from '$lib/constants';
 	import type { OsuUserInfo } from '$lib/interfaces';
     import { captains } from '$lib/stores';
     import { onMount } from 'svelte';
-
-    const TEAM_SIZE = 8;
 
     let teamCaptains: OsuUserInfo[] = [];
     onMount(() => {

@@ -3,11 +3,12 @@
   	import ImportTopBar from '$lib/components/ImportTopBar.svelte';
   	import PlayerList from '$lib/components/PlayerList.svelte';
 	import CaptainBar from '$lib/components/CaptainBar.svelte';
+	import DraftPlayerSidebar from '$lib/components/DraftPlayerSidebar.svelte';
+	import DraftScene from '$lib/components/DraftScene.svelte';
 
 	import { onMount } from 'svelte';
 	import { players, captains } from '$lib/stores';
 	import { browser } from '$app/environment';
-	import DraftPlayerSidebar from '$lib/components/DraftPlayerSidebar.svelte';
 
 	onMount(() => {
     	if (browser) { // Only access localStorage if in the browser
@@ -46,7 +47,14 @@
 				</button>
 			{:else}
 				<CaptainBar />
-				<DraftPlayerSidebar />
+				<div class="flex flex-grow">
+					<div class="flex">
+						<DraftPlayerSidebar />
+					</div>
+					<div class="flex">
+						<DraftScene />
+					</div>
+				</div>
 			{/if}
 		{/if}
 	</div>

@@ -5,3 +5,8 @@ export interface OsuUserInfo {
     pp: number;
     pfp_url: string;
 }
+
+export interface OsuTeam {
+    captain: OsuUserInfo | null;
+    players: OsuUserInfo[];
+}
