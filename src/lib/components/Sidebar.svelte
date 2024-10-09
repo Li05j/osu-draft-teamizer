@@ -12,8 +12,8 @@
     {#if sidebar_open}
         <nav class="p-4">
             <ul>
-                <li><button on:click={() => switchView('draft')} class="block py-2">Draft</button></li>
-                <li><button on:click={() => switchView('import')} class="block py-2">Import</button></li>
+                <li><button on:click={() => switchView('draft')} class="block py-2 w-full border-2 border-gray-700 hover:bg-blue-500 hover:shadow-lg transition">Draft</button></li>
+                <li><button on:click={() => switchView('import')} class="block py-2 w-full border-2 border-gray-700 hover:bg-blue-500 hover:shadow-lg transition">Import</button></li>
             </ul>
         </nav>
     {/if}
