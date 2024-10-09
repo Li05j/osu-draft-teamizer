@@ -1,11 +1,6 @@
 <script lang="ts">
     import { teams } from '$lib/stores';
 	import TeamCard from './TeamCard.svelte';
-
-    // let draftedTeams;
-    // $: teams.subscribe($teams => {
-    //     draftedTeams = $teams;
-    // });
 </script>
 
 <div class="w-full text-token grid grid-cols-2 md:grid-cols-4 gap-4">

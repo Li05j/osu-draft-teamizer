@@ -9,12 +9,12 @@
         freePlayers = [...freePlayers].sort((a, b) => a.rank - b.rank);
     });
 
-    function setCaptain(teamIndex: number, captain: OsuUserInfo) {
-        teams.update(currentTeams => {
-            currentTeams[teamIndex].captain = captain;
-            return currentTeams;
-        });
-      }
+    // function setCaptain(teamIndex: number, captain: OsuUserInfo) {
+    //     teams.update(currentTeams => {
+    //         currentTeams[teamIndex].captain = captain;
+    //         return currentTeams;
+    //     });
+    //   }
 
     function addPlayer(teamIndex: number, player: OsuUserInfo) {
         teams.update(currentTeams => {
