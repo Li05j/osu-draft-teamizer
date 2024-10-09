@@ -7,7 +7,7 @@
 
 <div class="flex">
 	<Toast />
-	<div class="flex-1">
+	<div style="background-color: #6b6b6b" class="flex-1">
 		<slot></slot> <!-- Page content will be injected here -->
 	</div>
 </div>

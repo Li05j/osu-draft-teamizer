@@ -6,7 +6,7 @@
 </script>
 
 {#if sidebar_open}
-<div class={`bg-gray-800 text-white transition-all h-screen w-32`}>
+<div class={`bg-gray-800 text-white transition-all h-screen w-32 drop-shadow-2xl`}>
     <button on:click={() => sidebar_open = false} class="p-4">
         <img src={List} alt="Hide Sidebar" class="w-6 h-6" />
     </button>
@@ -19,7 +19,7 @@
     </nav>
 </div>
 {:else}
-<div class={`bg-gray-800 text-white transition-all h-screen w-16`}>
+<div class={`bg-gray-800 text-white transition-all h-screen w-16 drop-shadow-2xl`}>
     <button on:click={() => sidebar_open = true} class="p-4">
         <img src={List} alt="Show Sidebar" class="w-6 h-6" />
     </button>

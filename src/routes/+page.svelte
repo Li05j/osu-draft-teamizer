@@ -2,6 +2,7 @@
   	import Sidebar from '$lib/components/Sidebar.svelte';
   	import ImportTopBar from '$lib/components/ImportTopBar.svelte';
   	import PlayerList from '$lib/components/PlayerList.svelte';
+	import CaptainBar from '$lib/components/CaptainBar.svelte';
 
 	import { onMount } from 'svelte';
 	import { players, captains } from '$lib/stores';
@@ -20,10 +21,15 @@
     	}
   	});
 	
+	let startDraft = false;
   	let currentView = 'import'; // Default to Import view
   	function switchView(view: string) {
 		currentView = view;
+		startDraft = false;
   	}
+	function setStartDraft() {
+		startDraft = true;
+	}
 </script>
 
 <div class="flex h-screen">
@@ -33,7 +39,13 @@
 			<ImportTopBar />
 			<PlayerList />
 		{:else if currentView === 'draft'}
-
+			{#if startDraft === false}
+				<button on:click={setStartDraft} class="ml-4 bg-blue-500 text-white px-6 py-4 rounded">
+					Start Draft!
+				</button>
+			{:else}
+				<CaptainBar />
+			{/if}
 		{/if}
 	</div>
 </div>
