@@ -163,7 +163,7 @@
         </button>
     </div>
     <div>
-        <span class="text-black pr-5">Player Count: {$players.length}</span>
+        <span class="text-black pr-5">Player Count: {$players.length+$captains.length}</span>
         <button
             on:click={saveChanges}
             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-lg transition"
