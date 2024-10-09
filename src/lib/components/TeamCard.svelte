@@ -32,10 +32,15 @@
     </header>
     <hr class="opacity-50" />
     <section>
-        <h6>Players:</h6>
         <ul>
             {#each team.players as player}
-                <li>{player.name}</li>
+                <div 
+                    class="w-72 h-12 p-3 rounded shadow text-black flex flex-shrink-0 items-center space-x-2 bg-white border-1"
+                >   
+                    <img src={player.pfp_url} alt="Profile Pic" class="w-10 h-10 rounded-full" />
+                    <h3 class="text-sm font-bold">{player.name}</h3>
+                    <h3 class="text-sm font-bold">#{player.rank}</h3>
+                </div>
             {/each}
       </ul>
     </section>
