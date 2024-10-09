@@ -20,7 +20,7 @@
 
 </script>
 
-<div class="bg-white rounded drop-shadow-2xl fixed bottom-0 left-0 right-0 w-full h-20 mx-auto transition-all space-x-2 flex justify-start items-center overflow-x-auto px-4">
+<div class="bg-white rounded drop-shadow-2xl fixed bottom-0 left-0 right-0 w-full h-20 mx-auto transition-all space-x-2 flex justify-start items-center overflow-x-auto px-4 border-2 border-red-900">
     {#each teamCaptains as captain, index}
         {#if index == 0}
             <div class="w-48 h-12 p-3 rounded shadow drop-shadow-2xl text-black flex flex-shrink-0 items-center space-x-2 bg-blue-300 border-2 border-blue-500">
