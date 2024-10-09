@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import { players, captains } from '$lib/stores';
 	import { browser } from '$app/environment';
+	import DraftPlayerSidebar from '$lib/components/DraftPlayerSidebar.svelte';
 
 	onMount(() => {
     	if (browser) { // Only access localStorage if in the browser
@@ -45,6 +46,7 @@
 				</button>
 			{:else}
 				<CaptainBar />
+				<DraftPlayerSidebar />
 			{/if}
 		{/if}
 	</div>
