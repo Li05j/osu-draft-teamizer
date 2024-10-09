@@ -61,20 +61,6 @@
         players.update(currentPlayers => currentPlayers.filter(player => player.user_id !== user_id));
         captains.update(currentCaptains => currentCaptains.filter(captain => captain.user_id !== user_id));
 
-        // // Remove from local storage
-        // const storedPlayers = localStorage.getItem('players');
-        // if (storedPlayers) {
-        //     const parsedPlayers = JSON.parse(storedPlayers);
-        //     const updatedPlayers = parsedPlayers.filter(player => player.user_id !== user_id);
-        //     localStorage.setItem('players', JSON.stringify(updatedPlayers));
-        // }
-        // const storedCaptains = localStorage.getItem('captains');
-        // if (storedCaptains) {
-        //     const parsedCaptains = JSON.parse(storedCaptains);
-        //     const updatedCaptains = parsedCaptains.filter(captain => captain.user_id !== user_id);
-        //     localStorage.setItem('captains', JSON.stringify(updatedCaptains));
-        // }
-
         toastStore.trigger({
             message: `✓ User not in storage anymore`,
             background: 'bg-zinc-800 text-green-400 text-center',
@@ -176,11 +162,14 @@
             Delete User Id
         </button>
     </div>
-    <button
-        on:click={saveChanges}
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-lg transition"
-    >
-        Save Changes
-    </button>
+    <div>
+        <span class="text-black pr-5">Player Count: {$players.length}</span>
+        <button
+            on:click={saveChanges}
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:shadow-lg transition"
+        >
+            Save Changes
+        </button>
+    </div>
 </div>
   
