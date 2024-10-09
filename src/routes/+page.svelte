@@ -23,6 +23,7 @@
     	}
   	});
 	
+	let sidebar_open = true;
 	let startDraft = false;
   	let currentView = 'import'; // Default to Import view
   	function switchView(view: string) {
@@ -31,11 +32,15 @@
   	}
 	function setStartDraft() {
 		startDraft = true;
+		toggleSidebarOpen();
+	}
+	function toggleSidebarOpen() {
+		sidebar_open = !sidebar_open;
 	}
 </script>
 
 <div class="flex h-screen">
-	<Sidebar {switchView} />
+	<Sidebar {toggleSidebarOpen} {switchView} {sidebar_open} />
 		{#if currentView === 'import'}
 		<div class="flex-1">
 			<ImportTopBar />

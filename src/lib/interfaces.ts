@@ -7,6 +7,5 @@ export interface OsuUserInfo {
 }
 
 export interface OsuTeam {
-    captain: OsuUserInfo | null;
     players: OsuUserInfo[];
 }
