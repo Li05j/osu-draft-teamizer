@@ -33,7 +33,7 @@
 
 <div class="overflow-y-auto h-[80vh] p-4">
     {#each teamCaptains as captain}
-        <div class="bg-white p-4 mb-4 rounded shadow text-black flex justify-between items-center space-x-4 hover:bg-gray-400 hover:shadow-lg transition bg-pink-300">
+        <div class="p-4 mb-4 rounded shadow text-black flex justify-between items-center space-x-4 hover:bg-gray-400 hover:shadow-lg transition bg-pink-300">
             <div class="flex space-x-4 items-center">
                 <a href={`${osu_url}/${captain.user_id}`} target="_blank" class="block" >
                     <img src={captain.pfp_url} alt="Profile Pic" class="w-16 h-16 rounded-full" />
