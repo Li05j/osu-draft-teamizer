@@ -17,7 +17,6 @@
         });
     });
 
-
     $: if ($addPlayerToTeam) {
         const captain = teamCaptains.shift();
         teamCaptains = [...teamCaptains];

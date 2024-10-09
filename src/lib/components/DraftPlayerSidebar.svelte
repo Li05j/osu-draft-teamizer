@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { teams, players, addPlayerToTeam } from '$lib/stores';
+    import { players, addPlayerToTeam } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let freePlayers: OsuUserInfo[] = [];

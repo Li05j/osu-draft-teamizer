@@ -19,7 +19,7 @@
 </script>
 
 <div class="bg-white p-4 space-y-4 card-hover overflow-hidden max-w-xs">
-    <header class="pb-2">
+    <header class="pb-1">
         {#if captain}
             <div class="w-72 h-12 p-3 rounded shadow text-black flex flex-shrink-0 items-center space-x-2 bg-pink-300 border-2">
                 <img src={captain.pfp_url} alt="Profile Pic" class="w-10 h-10 rounded-full" />
