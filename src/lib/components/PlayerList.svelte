@@ -31,7 +31,7 @@
     }
 </script>
 
-<div class="overflow-y-auto h-[80vh] p-4">
+<div class="overflow-y-auto h-[80vh] p-4 bg-gray-800">
     {#each teamCaptains as captain}
         <div class="p-4 mb-4 rounded shadow text-black flex justify-between items-center space-x-4 hover:bg-gray-400 hover:shadow-lg transition bg-pink-300">
             <div class="flex space-x-4 items-center">
