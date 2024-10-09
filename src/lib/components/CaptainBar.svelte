@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TEAM_SIZE } from '$lib/constants';
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { captains } from '$lib/stores';
+    import { captains, teams, addPlayerToTeam } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let teamCaptains: OsuUserInfo[] = [];
@@ -16,6 +16,18 @@
             teamCaptains = tempCaptains; // Reassign to trigger reactivity
         });
     });
+
+
+    $: if ($addPlayerToTeam) {
+        const captain = teamCaptains.shift();
+        teamCaptains = [...teamCaptains];
+        const index = $captains.findIndex(c => c.user_id === captain?.user_id);
+        teams.update(currentTeams => {
+            currentTeams[index].players.push($addPlayerToTeam);
+            return currentTeams;
+        });
+        addPlayerToTeam.set(null);
+    }
 
 </script>
 

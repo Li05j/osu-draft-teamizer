@@ -4,6 +4,7 @@ import { TEAM_COUNT } from '$lib/constants';
 
 export const players = writable<OsuUserInfo[]>([]);
 export const captains = writable<OsuUserInfo[]>([]);
-export const teams = writable<OsuTeam[]>(Array(TEAM_COUNT).fill({ players: []}));
+export const teams = writable<OsuTeam[]>(Array.from({ length: TEAM_COUNT }, () => ({ players: [] })));
 
-export const nextTurn = writable(false);
+
+export const addPlayerToTeam = writable<OsuUserInfo | null>();
