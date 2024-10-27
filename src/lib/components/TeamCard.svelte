@@ -30,14 +30,14 @@
             No Captain
         {/if}
     </header>
-    <hr class="opacity-50" />
+    <hr class="h-1 bg-black border-0 opacity-75" />
     <section>
         <ul>
             {#each team.players as player}
                 <div 
-                    class="w-72 h-12 p-3 rounded shadow text-black flex flex-shrink-0 items-center space-x-2 bg-white border-1"
+                    class="w-72 h-10 p-3 rounded shadow text-black flex flex-shrink-0 items-center space-x-2 bg-white border-1"
                 >   
-                    <img src={player.pfp_url} alt="Profile Pic" class="w-10 h-10 rounded-full" />
+                    <img src={player.pfp_url} alt="Profile Pic" class="w-8 h-8 rounded-full" />
                     <h3 class="text-sm font-bold">{player.name}</h3>
                     <h3 class="text-sm font-bold">#{player.rank}</h3>
                 </div>
