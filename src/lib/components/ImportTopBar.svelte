@@ -31,14 +31,14 @@
                 return [...currentPlayers, selected_user_info]; // Add new player
             });
 
-            console.log($players);
+            // console.log($players);
             
             if (duplicate_id) {
                 throw new Error('Duplicate user_id.');
             }
 
             toastStore.trigger({
-                message: `✓ User Id added: ${user_id}`,
+                message: `✓ User Id added: ${user_id}, ${selected_user_info.name}`,
                 background: 'bg-zinc-800 text-green-400 text-center',
                 timeout: 2500,
             })
@@ -71,7 +71,7 @@
     async function getGuestToken(): Promise<string> {
         const response = await fetch('/api/get_token', { method: 'POST' });
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
 
         // Check if we got the token
         const guest_token = data.access_token;

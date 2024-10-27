@@ -9,9 +9,16 @@
         captains.subscribe($captains => {
             const tempCaptains: OsuUserInfo[] = [];
             for (let i = 0; i < TEAM_SIZE - 1; i++) {
-                $captains.forEach(captain => {
-                    tempCaptains.push(captain);
-                });
+                if (!(i % 2)) {
+                    $captains.forEach(captain => {
+                        tempCaptains.push(captain);
+                    })
+                }
+                else {
+                    $captains.slice().reverse().forEach(captain => {
+                        tempCaptains.push(captain);
+                    });
+                }
             }
             teamCaptains = tempCaptains; // Reassign to trigger reactivity
         });
