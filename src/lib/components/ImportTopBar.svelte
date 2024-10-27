@@ -15,7 +15,7 @@
 
             // If no token or token is expired
             if (!token || (Date.now() > expiresAt)) {
-                console.log("Token doesn't exist or has expired, requesting new token...");
+                // console.log("Token doesn't exist or has expired, requesting new token...");
                 token = await getGuestToken();
             }
 

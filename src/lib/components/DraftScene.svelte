@@ -7,7 +7,7 @@
         if (event.ctrlKey && event.key === 'z') {
             event.preventDefault(); // Prevent default undo behavior, if needed
             
-            console.log('Undo triggered');
+            // console.log('Undo triggered');
             undoStack.update(currentStack => {
                 const lastPair = currentStack.pop();
                 if (lastPair) {

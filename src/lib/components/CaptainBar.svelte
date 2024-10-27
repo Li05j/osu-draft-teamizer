@@ -25,7 +25,7 @@
     });
 
     $: if ($addPlayerToTeamSignal) {
-        console.log("I am triggered - addPlayerToTeamSignal!")
+        // console.log("I am triggered - addPlayerToTeamSignal!")
         const captain = teamCaptains.shift();
         teamCaptains = [...teamCaptains];
         const index = $captains.findIndex(c => c.user_id === captain?.user_id);
@@ -40,7 +40,7 @@
     }
 
     $: if ($undoSignal) {
-        console.log("I am triggered - captain undo!")
+        // console.log("I am triggered - captain undo!")
         teamCaptains.unshift($undoSignal[0])
         teams.update(teams =>
             teams.map(team => ({
