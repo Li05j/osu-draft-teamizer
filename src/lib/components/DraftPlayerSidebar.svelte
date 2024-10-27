@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { players, addPlayerToTeam } from '$lib/stores';
+    import { players, addPlayerToTeamSignal, undoSignal } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let freePlayers: OsuUserInfo[] = [];
@@ -10,8 +10,20 @@
     });
 
     function notifyCaptains(player: OsuUserInfo) {
-        addPlayerToTeam.set(player);
+        undoSignal.set(null) // This is to make sure undo don't fuck up the draft selection
+        addPlayerToTeamSignal.set(player);
         freePlayers = freePlayers.filter(p => p.user_id !== player.user_id);
+    }
+
+    $: if ($undoSignal) {
+        const undoPlayer = $undoSignal[1];
+        const index = freePlayers.findIndex(player => player.rank > undoPlayer.rank);
+        if (index !== -1) {
+            freePlayers.splice(index, 0, undoPlayer); // Insert at the found index
+        } else {
+            freePlayers.push(undoPlayer); // If no larger id was found, push it to the end
+        }
+        freePlayers = [...freePlayers]
     }
 </script>
 

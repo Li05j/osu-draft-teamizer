@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TEAM_SIZE } from '$lib/constants';
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { captains, teams, addPlayerToTeam } from '$lib/stores';
+    import { captains, teams, addPlayerToTeamSignal, undoStack, undoSignal } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let teamCaptains: OsuUserInfo[] = [];
@@ -24,15 +24,31 @@
         });
     });
 
-    $: if ($addPlayerToTeam) {
+    $: if ($addPlayerToTeamSignal) {
+        console.log("I am triggered - addPlayerToTeamSignal!")
         const captain = teamCaptains.shift();
         teamCaptains = [...teamCaptains];
         const index = $captains.findIndex(c => c.user_id === captain?.user_id);
         teams.update(currentTeams => {
-            currentTeams[index].players.push($addPlayerToTeam);
+            currentTeams[index].players.push($addPlayerToTeamSignal);
             return currentTeams;
         });
-        addPlayerToTeam.set(null);
+        if (captain) {
+            const newPair: [OsuUserInfo, OsuUserInfo] = [captain, $addPlayerToTeamSignal];
+            undoStack.update(currentStack => [...currentStack, newPair]);
+        }
+    }
+
+    $: if ($undoSignal) {
+        console.log("I am triggered - captain undo!")
+        teamCaptains.unshift($undoSignal[0])
+        teams.update(teams =>
+            teams.map(team => ({
+                ...team,
+                players: team.players.filter(player => player.user_id !== $undoSignal[1].user_id)
+            }))
+        );
+        teamCaptains = [...teamCaptains]
     }
 
 </script>

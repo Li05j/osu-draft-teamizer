@@ -1,7 +1,7 @@
 <script lang='ts'>
     import type { OsuTeam, OsuUserInfo } from "$lib/interfaces";
     import { onMount } from 'svelte';
-    import { teams, captains } from "$lib/stores";
+    import { teams, captains, undoSignal } from "$lib/stores";
 
     export let teamIndex: number;
 
