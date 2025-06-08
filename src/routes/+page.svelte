@@ -1,10 +1,10 @@
 <script lang="ts">
   	import Sidebar from '$lib/components/Sidebar.svelte';
-  	import ImportTopBar from '$lib/components/ImportTopBar.svelte';
-  	import PlayerList from '$lib/components/PlayerList.svelte';
-	import CaptainBar from '$lib/components/CaptainBar.svelte';
-	import DraftPlayerSidebar from '$lib/components/DraftPlayerSidebar.svelte';
-	import DraftScene from '$lib/components/DraftScene.svelte';
+  	import ImportTopBar from '$lib/components/import/draft/ImportTopBar.svelte';
+  	import PlayerList from '$lib/components/import/draft/PlayerList.svelte';
+	import CaptainBar from '$lib/components/import/draft/CaptainBar.svelte';
+	import DraftPlayerSidebar from '$lib/components/build_team/draft/DraftPlayerSidebar.svelte';
+	import DraftScene from '$lib/components/build_team/draft/DraftScene.svelte';
 
 	import { onMount } from 'svelte';
 	import { players, captains } from '$lib/stores';
@@ -38,12 +38,17 @@
   	});
 	
 	let sidebar_open = true;
-  	let current_view = 'import'; // 'import' or 'team_building'
+  	let current_view = 'import'; // 'import', 'import', or 'team_building'
+	let import_type = 'draft'; // 'none', draft' or 'random'
 	let team_build_type = 'none'; // 'none', 'draft', or 'random'
   	function switchView(view: string) {
 		current_view = view;
 		team_build_type = 'none';
+		return view;
   	}
+	function changeImportType(type: string) {
+		import_type = type;
+	}
 	function setDraftTeamBuilding() {
 		team_build_type = 'draft';
 		toggleSidebarOpen();
@@ -58,12 +63,16 @@
 </script>
 
 <div class="flex h-screen">
-	<Sidebar {toggleSidebarOpen} {switchView} {sidebar_open} />
-		{#if current_view === 'import'}
+	<Sidebar {toggleSidebarOpen} {switchView} {changeImportType} {sidebar_open} {current_view} {import_type} />
+		{#if current_view === 'import' && import_type === 'draft'}
 		<div class="flex-1">
 			<ImportTopBar />
 			<PlayerList />
 		</div>
+		{:else if current_view === 'import' && import_type === 'random'}
+			<div class="flex-1">
+				<!-- empty -->
+			</div>
 		{:else if current_view === 'team_building'}
 			{#if team_build_type === 'none'}
 			<div class="flex flex-1 justify-center items-center">

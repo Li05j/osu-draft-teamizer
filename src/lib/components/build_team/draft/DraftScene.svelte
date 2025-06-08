@@ -1,7 +1,7 @@
 <script lang="ts">
     import { teams, undoStack, undoSignal } from '$lib/stores';
     import { onMount } from 'svelte';
-	import TeamCard from '$lib/components/TeamCard.svelte';
+	import TeamCard from '$lib/components/build_team/draft/TeamCard.svelte';
 
     function handleUndo(event) {
         if (event.ctrlKey && event.key === 'z') {
