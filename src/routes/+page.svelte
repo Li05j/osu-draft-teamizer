@@ -1,10 +1,16 @@
 <script lang="ts">
   	import Sidebar from '$lib/components/Sidebar.svelte';
-  	import ImportTopBar from '$lib/components/import/draft/ImportTopBar.svelte';
-  	import PlayerList from '$lib/components/import/draft/PlayerList.svelte';
-	import CaptainBar from '$lib/components/import/draft/CaptainBar.svelte';
+  	import DraftImportTopBar from '$lib/components/import/draft/ImportTopBar.svelte';
+  	import DraftPlayerList from '$lib/components/import/draft/PlayerList.svelte';
+	import DraftCaptainBar from '$lib/components/build_team/draft/CaptainBar.svelte';
 	import DraftPlayerSidebar from '$lib/components/build_team/draft/DraftPlayerSidebar.svelte';
 	import DraftScene from '$lib/components/build_team/draft/DraftScene.svelte';
+	
+  	import RandomImportTopBar from '$lib/components/import/random/ImportTopBar.svelte';
+  	import RandomPlayerList from '$lib/components/import/random/PlayerList.svelte';
+	// import RandomCaptainBar from '$lib/components/build_team/random/CaptainBar.svelte';
+	// import RandomPlayerSidebar from '$lib/components/build_team/random/DraftPlayerSidebar.svelte';
+	// import RandomScene from '$lib/components/build_team/random/DraftScene.svelte';
 
 	import { onMount } from 'svelte';
 	import { players, captains } from '$lib/stores';
@@ -66,12 +72,13 @@
 	<Sidebar {toggleSidebarOpen} {switchView} {changeImportType} {sidebar_open} {current_view} {import_type} />
 		{#if current_view === 'import' && import_type === 'draft'}
 		<div class="flex-1">
-			<ImportTopBar />
-			<PlayerList />
+			<DraftImportTopBar />
+			<DraftPlayerList />
 		</div>
 		{:else if current_view === 'import' && import_type === 'random'}
 			<div class="flex-1">
-				<!-- empty -->
+				<RandomImportTopBar />
+				<RandomPlayerList />
 			</div>
 		{:else if current_view === 'team_building'}
 			{#if team_build_type === 'none'}
@@ -84,7 +91,7 @@
 				</button>
 			</div>
 			{:else if team_build_type === 'draft'}
-				<CaptainBar />
+				<DraftCaptainBar />
                 <DraftPlayerSidebar />
 				<div class="flex-1">
 					<DraftScene />
