@@ -43,8 +43,11 @@
             )
         );
     }
-    let tiered_players = [];
-    $: tiered_players = calculateTiers($players);
+    let tiered_players: OsuUserInfo[] = [];
+    $: {
+        tiered_players = calculateTiers($players);
+        players.set(tiered_players);
+    }
 
     // Calculate tiers for pairs too
     let tiered_pairs = [];

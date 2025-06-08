@@ -1,24 +1,25 @@
 <script lang="ts">
 	import type { OsuUserInfo } from '$lib/interfaces';
-    import { players, addPlayerToTeamSignal, undoSignal } from '$lib/stores';
+    import { players, add_pairs_to_team_signal, addPlayerToTeamSignal, undoSignal } from '$lib/stores';
     import { onMount } from 'svelte';
 
     let freePlayers: OsuUserInfo[] = [];
-    onMount(() => {
-        freePlayers = $players;
-        freePlayers = [...freePlayers].sort((a, b) => a.tier - b.tier);
-    });
+    $: {
+        freePlayers = [...$players].sort((a, b) => a.tier - b.tier);
+    }
 
-    // $: if ($undoSignal) {
-    //     const undoPlayer = $undoSignal[1];
-    //     const index = freePlayers.findIndex(player => player.rank > undoPlayer.rank);
-    //     if (index !== -1) {
-    //         freePlayers.splice(index, 0, undoPlayer); // Insert at the found index
-    //     } else {
-    //         freePlayers.push(undoPlayer); // If no larger id was found, push it to the end
-    //     }
-    //     freePlayers = [...freePlayers]
-    // }
+    // Remove single player when signal emitted
+    $: if ($addPlayerToTeamSignal) {
+        console.log("Player removed from free players:", $addPlayerToTeamSignal);
+        freePlayers = freePlayers.filter(p => p.user_id !== $addPlayerToTeamSignal.user_id);
+    }
+
+    // Remove pair when signal emitted
+    $: if ($add_pairs_to_team_signal) {
+        console.log("Player removed from free players:", $add_pairs_to_team_signal);
+        const [player1, player2] = $add_pairs_to_team_signal;
+        freePlayers = freePlayers.filter(p => p.user_id !== player1.user_id && p.user_id !== player2.user_id);
+    }
 </script>
 
 <div class="bg-gray-800 text-white fixed right-0 top-0 h-screen w-72 overflow-y-auto">

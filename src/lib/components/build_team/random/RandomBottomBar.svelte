@@ -4,6 +4,30 @@
     import { players, captains, player_pairs, teams, addPlayerToTeamSignal, add_pairs_to_team_signal, undoStack, undoSignal } from '$lib/stores';
     import { onMount } from 'svelte';
 
+    let revealed_first = false;
+
+    function handleFirstPairClick() {
+        if (!revealed_first) {
+            revealed_first = true;
+        } else {
+            // Send pair to signal and remove from conveyor
+            add_pairs_to_team_signal.set(shuffled_pairs[0]);
+            shuffled_pairs = shuffled_pairs.slice(1);
+            revealed_first = false;
+        }
+    }
+
+    function handleFirstPlayerClick() {
+        if (!revealed_first) {
+            revealed_first = true;
+        } else {
+            // Send player to signal and remove from conveyor
+            addPlayerToTeamSignal.set(shuffled_players[0]);
+            shuffled_players = shuffled_players.slice(1);
+            revealed_first = false;
+        }
+    }
+
     let shuffled_pairs: [OsuUserInfo, OsuUserInfo][] = [];
     let shuffled_players: OsuUserInfo[] = [];
 
@@ -108,7 +132,7 @@
         });
         
         // Reset signal
-        add_pairs_to_team_signal.set(null);
+        // add_pairs_to_team_signal.set(null);
     }
 
     $: if ($addPlayerToTeamSignal) {
@@ -129,7 +153,7 @@
         });
 
         // Reset signal
-        addPlayerToTeamSignal.set(null);
+        // addPlayerToTeamSignal.set(null);
     }
 
 </script>
@@ -137,31 +161,53 @@
 <div class="bg-white rounded drop-shadow-2xl fixed bottom-0 left-0 right-0 w-full h-20 mx-auto transition-all space-x-2 flex justify-start items-center overflow-x-auto px-4 border-2 border-red-900">
     {#each shuffled_pairs as pair, index}
         {#if index == 0}
-            <div class="w-160 h-12 p-3 rounded shadow drop-shadow-2xl text-black flex flex-shrink-0 items-center justify-between space-x-2 bg-blue-300 border-2 border-blue-500">
-                <div class="flex items-center space-x-2">
-                    <img src={pair[0].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
-                    <h3 class="text-sm font-bold">T{pair[0].tier}</h3>
-                    <h3 class="text-sm font-bold">{pair[0].name}</h3>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <img src={pair[1].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
-                    <h3 class="text-sm font-bold">T{pair[1].tier}</h3>
-                    <h3 class="text-sm font-bold">{pair[1].name}</h3>
-                </div>
-                <span class="text-yellow-600 text-lg">⭐</span>
-            </div>
+            <button 
+                class="w-160 h-12 p-3 rounded shadow drop-shadow-2xl text-black flex flex-shrink-0 items-center justify-between space-x-2 {revealed_first ? 'bg-blue-300 border-2 border-blue-500' : 'bg-gray-400 border-2 border-gray-600'}"
+                on:click={handleFirstPairClick}
+            >
+                {#if revealed_first}
+                    <div class="flex items-center space-x-2">
+                        <img src={pair[0].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
+                        <h3 class="text-sm font-bold">T{pair[0].tier}</h3>
+                        <h3 class="text-sm font-bold">{pair[0].name}</h3>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src={pair[1].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
+                        <h3 class="text-sm font-bold">T{pair[1].tier}</h3>
+                        <h3 class="text-sm font-bold">{pair[1].name}</h3>
+                    </div>
+                    <span class="text-yellow-600 text-lg">⭐</span>
+                {:else}
+                    <span class="text-white font-bold w-80 h-12 text-center flex items-center justify-center">Reveal!</span>
+
+                {/if}
+            </button>
         {:else}
-            <div class="w-160 h-12 p-3 rounded shadow text-black flex flex-shrink-0 items-center space-x-2 bg-pink-300 border-2 border-red-500">
-                <div class="flex items-center space-x-2">
-                    <img src={pair[0].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
-                    <h3 class="text-sm font-bold">T{pair[0].tier}</h3>
-                    <h3 class="text-sm font-bold">{pair[0].name}</h3>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <img src={pair[1].pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
-                    <h3 class="text-sm font-bold">T{pair[1].tier}</h3>
-                    <h3 class="text-sm font-bold">{pair[1].name}</h3>
-                </div>
+            <div class="w-80 h-12 p-3 rounded shadow flex flex-shrink-0 items-center justify-center bg-gray-500 border-2 border-gray-700">
+                <span class="text-gray-300 font-bold">???</span>
+            </div>
+        {/if}
+    {/each}
+
+    {#each shuffled_players as player, index}
+        {#if index == 0 && shuffled_pairs.length === 0}
+            <button 
+                class="w-56 h-12 p-3 rounded shadow drop-shadow-2xl text-black flex flex-shrink-0 items-center justify-between space-x-2 {revealed_first ? 'bg-blue-300 border-2 border-blue-500' : 'bg-gray-400 border-2 border-gray-600'}"
+                on:click={handleFirstPlayerClick}
+            >
+                {#if revealed_first}
+                    <div class="flex items-center space-x-2">
+                        <img src={player.pfp_url} alt="Profile Pic" class="w-9 h-9 rounded-full" />
+                        <h3 class="text-sm font-bold">{player.name}</h3>
+                    </div>
+                    <span class="text-yellow-600 text-lg">⭐</span>
+                {:else}
+                    <span class="text-white font-bold mx-auto">Reveal!</span>
+                {/if}
+            </button>
+        {:else}
+            <div class="w-56 h-12 p-3 rounded shadow flex flex-shrink-0 items-center justify-center bg-gray-500 border-2 border-gray-700">
+                <span class="text-gray-300 font-bold">???</span>
             </div>
         {/if}
     {/each}
