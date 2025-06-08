@@ -12,7 +12,11 @@
 </script>
 
 <div class="bg-white p-4 space-y-4 card-hover overflow-hidden max-w-xs">
-    <hr class="h-1 bg-black border-0 opacity-75" />
+    <header class="pb-0">
+        <h6 class="text-sm font-bold text-black text-center my-0">Team {teamIndex + 1}</h6>
+    </header>
+    
+    <hr class="h-1 bg-black border-0 opacity-75 mt-0" />
     <section>
         <ul>
             {#each team.players.slice().sort((a, b) => a.tier - b.tier) as player}

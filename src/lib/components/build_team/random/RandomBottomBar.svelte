@@ -112,6 +112,7 @@
 
     function selectRandomTeam(eligibleTeams: number[]): number {
         if (eligibleTeams.length === 0) return -1;
+        console.log(`Eligible Teams: ${eligibleTeams}`);
         return eligibleTeams[Math.floor(Math.random() * eligibleTeams.length)];
     }
 
@@ -137,6 +138,9 @@
     }
 
     $: if ($addPlayerToTeamSignal) {
+        if ($add_pairs_to_team_signal) {
+            add_pairs_to_team_signal.set(null);
+        }
         const player = $addPlayerToTeamSignal;
         
         teams.update(current_teams => {
