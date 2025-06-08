@@ -10,17 +10,31 @@
 	import { players, captains } from '$lib/stores';
 	import { browser } from '$app/environment';
 
+	let debugInfo = {
+    	browser: false,
+    	hasLocalStorage: false,
+    	playersData: null,
+    	hydrated: false
+  	};
+
 	onMount(() => {
-    	if (browser) { // Only access localStorage if in the browser
+		debugInfo.browser = browser;
+    	debugInfo.hasLocalStorage = typeof localStorage !== 'undefined';
+    	
+		if (browser && typeof localStorage !== 'undefined') { // Only access localStorage if in the browser
     		const storedPlayers = localStorage.getItem('players');
     		if (storedPlayers) {
     			players.set(JSON.parse(storedPlayers)); // Populate store with local storage data
-    		}
+				debugInfo.playersData = JSON.parse(storedPlayers);
+			}
     		const storedCaptains = localStorage.getItem('captains');
     		if (storedCaptains) {
     			captains.set(JSON.parse(storedCaptains)); // Populate store with local storage data
     		}
     	}
+
+		debugInfo.hydrated = true;
+    	console.log('Debug info:', debugInfo);
   	});
 	
 	let sidebar_open = true;

@@ -1,4 +1,5 @@
 <script>
+	export const ssr = false;
 	import { initializeStores, Toast } from "@skeletonlabs/skeleton"
 	import '../app.postcss';
 
