@@ -38,14 +38,18 @@
   	});
 	
 	let sidebar_open = true;
-	let startDraft = false;
-  	let currentView = 'import'; // Default to Import view
+  	let current_view = 'import'; // 'import' or 'team_building'
+	let team_build_type = 'none'; // 'none', 'draft', or 'random'
   	function switchView(view: string) {
-		currentView = view;
-		startDraft = false;
+		current_view = view;
+		team_build_type = 'none';
   	}
-	function setStartDraft() {
-		startDraft = true;
+	function setDraftTeamBuilding() {
+		team_build_type = 'draft';
+		toggleSidebarOpen();
+	}
+	function setRandomTeamBuilding() {
+		team_build_type = 'random';
 		toggleSidebarOpen();
 	}
 	function toggleSidebarOpen() {
@@ -55,24 +59,29 @@
 
 <div class="flex h-screen">
 	<Sidebar {toggleSidebarOpen} {switchView} {sidebar_open} />
-		{#if currentView === 'import'}
+		{#if current_view === 'import'}
 		<div class="flex-1">
 			<ImportTopBar />
 			<PlayerList />
 		</div>
-		{:else if currentView === 'draft'}
-			{#if startDraft === false}
+		{:else if current_view === 'team_building'}
+			{#if team_build_type === 'none'}
 			<div class="flex flex-1 justify-center items-center">
-				<button type="button" on:click={setStartDraft} class="btn bg-pink-200 text-black rounded mx-auto w-96 h-96 text-2xl">
+				<button type="button" on:click={setDraftTeamBuilding} class="btn bg-pink-200 text-black rounded mx-auto w-96 h-96 text-2xl">
 						Start Draft!
 				</button>
+				<button type="button" on:click={setRandomTeamBuilding} class="btn bg-pink-200 text-black rounded mx-auto w-96 h-96 text-2xl">
+						Start Random!
+				</button>
 			</div>
-			{:else}
+			{:else if team_build_type === 'draft'}
 				<CaptainBar />
                 <DraftPlayerSidebar />
 				<div class="flex-1">
 					<DraftScene />
 				</div>
+			{:else if team_build_type === 'random'}
+				<!-- empty -->
 			{/if}
 		{/if}
 </div>
