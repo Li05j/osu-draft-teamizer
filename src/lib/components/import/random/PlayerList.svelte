@@ -1,7 +1,57 @@
 <script lang="ts">
     import { players, player_pairs } from '$lib/stores';
+    import type { OsuUserInfo } from "$lib/interfaces";
 
     const osu_url = "https://osu.ppy.sh/users";
+
+    function calculateTiers(players: OsuUserInfo[]): OsuUserInfo[] {
+        const sorted_by_rank = [...players].sort((a, b) => a.rank - b.rank);
+        const manual_players = players.filter(p => p.manual_tier);
+        const auto_players = sorted_by_rank.filter(p => !p.manual_tier);
+
+        // Count manual players per tier
+        const manual_counts = [0, 0, 0, 0];
+        manual_players.forEach(p => manual_counts[p.tier - 1]++);
+
+        // Calculate available slots per tier
+        const tier_limits = [16, 16, 16, Infinity];
+        const available_slots = tier_limits.map((limit, i) => Math.max(0, limit - manual_counts[i]));
+
+        // Assign tiers to auto players
+        let tier_index = 0;
+        let current_tier_count = 0;
+
+        auto_players.forEach(player => {
+            while (current_tier_count >= available_slots[tier_index] && tier_index < 3) {
+                tier_index++;
+                current_tier_count = 0;
+            }
+
+            player.tier = tier_index + 1;
+            current_tier_count++;
+        });
+
+        return [...manual_players, ...auto_players];
+    }
+
+    function updatePlayerTier(player_id: string, new_tier: number) {
+        players.update(current_players => 
+            current_players.map(player => 
+                player.user_id === player_id 
+                    ? { ...player, tier: new_tier, manual_tier: true }
+                    : player
+            )
+        );
+    }
+    let tiered_players = [];
+    $: tiered_players = calculateTiers($players);
+
+    // Calculate tiers for pairs too
+    let tiered_pairs = [];
+    $: tiered_pairs = $player_pairs.map(pair => [
+        tiered_players.find(p => p.user_id === pair[0].user_id) || pair[0],
+        tiered_players.find(p => p.user_id === pair[1].user_id) || pair[1]
+    ]);
 
     let paired_player_ids = new Set();
     $: {
@@ -12,12 +62,11 @@
         });
     }
 
-    let sorted_players = [];
-    $: sorted_players = [...$players]
+    $: sorted_players = tiered_players
         .filter(player => !paired_player_ids.has(player.user_id))
         .sort((a, b) => a.rank - b.rank);
     
-    $: pairs = $player_pairs;
+    $: pairs = tiered_pairs;
 
     let binding_mode = false;
     let selected_player_id: string = "";
@@ -71,6 +120,12 @@
                 <p>Rank: {pair[0].rank}</p>
                 <p>pp: {pair[0].pp}</p>
                 <p>Id: {pair[0].user_id}</p>
+                <select class="select text-white w-24" bind:value={pair[0].tier} on:change={() => updatePlayerTier(pair[0].user_id, pair[0].tier)}>
+                    <option value={1}>Tier 1</option>
+                    <option value={2}>Tier 2</option>
+                    <option value={3}>Tier 3</option>
+                    <option value={4}>Tier 4</option>
+                </select>
             </div>
             <div class="flex space-x-4 items-center">
                 <a href={`${osu_url}/${pair[1].user_id}`} target="_blank" class="block" >
@@ -80,6 +135,12 @@
                 <p>Rank: {pair[1].rank}</p>
                 <p>pp: {pair[1].pp}</p>
                 <p>Id: {pair[1].user_id}</p>
+                <select class="select text-white w-24" bind:value={pair[1].tier} on:change={() => updatePlayerTier(pair[1].user_id, pair[1].tier)}>
+                    <option value={1}>Tier 1</option>
+                    <option value={2}>Tier 2</option>
+                    <option value={3}>Tier 3</option>
+                    <option value={4}>Tier 4</option>
+                </select>
             </div>
             <!-- We only need to check one of the two players in the pair -->
             {#if !binding_mode}
@@ -104,6 +165,12 @@
                 <p>Rank: {player.rank}</p>
                 <p>pp: {player.pp}</p>
                 <p>Id: {player.user_id}</p>
+                <select class="select text-white w-24" bind:value={player.tier} on:change={() => updatePlayerTier(player.user_id, player.tier)}>
+                    <option value={1}>Tier 1</option>
+                    <option value={2}>Tier 2</option>
+                    <option value={3}>Tier 3</option>
+                    <option value={4}>Tier 4</option>
+                </select>
             </div>
             
             {#if binding_mode && player.user_id === selected_player_id}

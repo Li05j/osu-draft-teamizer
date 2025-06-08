@@ -4,6 +4,8 @@ export interface OsuUserInfo {
     rank: number;
     pp: number;
     pfp_url: string;
+    tier?: number;
+    manual_tier?: boolean;
 }
 
 export interface OsuTeam {
