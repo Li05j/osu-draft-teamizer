@@ -68,19 +68,20 @@
 
     // Find eligible teams for a pair
     function findEligibleTeamsForPair(currentTeams: any[], player1: OsuUserInfo, player2: OsuUserInfo): number[] {
-        const eligibleTeams: number[] = [];
+        const eligibleTeams: number[] =     [];
 
         currentTeams.forEach((team, index) => {
-            // Check if team has space for 2 more players
             if (team.players.length + 2 > TEAM_SIZE) return;
 
             const tierCounts = getTeamTierCounts(team);
+            const newTierCounts = { ...tierCounts };
 
-            // Check if adding both players would violate tier constraints (max 2 per tier)
-            const newTier1Count = (tierCounts[player1.tier] || 0) + 1;
-            const newTier2Count = (tierCounts[player2.tier] || 0) + (player1.tier === player2.tier ? 1 : 0);
+            newTierCounts[player1.tier] = (newTierCounts[player1.tier] || 0) + 1;
+            newTierCounts[player2.tier] = (newTierCounts[player2.tier] || 0) + 1;
 
-            if (newTier1Count <= 2 && newTier2Count <= 2) {
+            const isValid = Object.values(newTierCounts).every(count => count <= 2);
+
+            if (isValid) {
                 eligibleTeams.push(index);
             }
         });
