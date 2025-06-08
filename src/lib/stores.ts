@@ -15,6 +15,8 @@ export const undoStack = writable<[OsuUserInfo, OsuUserInfo][]>([]);
 
 // Signals
 
+// Emitted when a pair is about to be added to teams
+export const add_pairs_to_team_signal = writable<[OsuUserInfo, OsuUserInfo] | null>();
 // Emitted when a player is about to be added to teams
 export const addPlayerToTeamSignal = writable<OsuUserInfo | null>();
 

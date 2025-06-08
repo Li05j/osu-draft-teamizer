@@ -8,8 +8,8 @@
 	
   	import RandomImportTopBar from '$lib/components/import/random/ImportTopBar.svelte';
   	import RandomPlayerList from '$lib/components/import/random/PlayerList.svelte';
-	// import RandomCaptainBar from '$lib/components/build_team/random/CaptainBar.svelte';
-	// import RandomPlayerSidebar from '$lib/components/build_team/random/DraftPlayerSidebar.svelte';
+	import RandomBottomBar from '$lib/components/build_team/random/RandomBottomBar.svelte';
+	import RandomPlayerSidebar from '$lib/components/build_team/random/RandomPlayerSidebar.svelte';
 	import RandomScene from '$lib/components/build_team/random/RandomScene.svelte';
 
 	import { onMount } from 'svelte';
@@ -101,6 +101,8 @@
 					<DraftScene />
 				</div>
 			{:else if team_build_type === 'random'}
+				<RandomBottomBar />
+                <RandomPlayerSidebar />
 				<div class="flex-1">
 					<RandomScene />
 				</div>
