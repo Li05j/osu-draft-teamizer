@@ -28,15 +28,9 @@
         );
 
         if (pair_index === -1) return; // Not paired
-
-        // Remove the pair and add both players back
-        // const removedPair = pairs[pairIndex];
         player_pairs.update(currentPairs => 
             currentPairs.filter((_, index) => index !== pair_index)
         );
-        // players.update(currentPlayers => 
-        //     [...currentPlayers, removedPair[0], removedPair[1]]
-        // );
     }
 
     function try_to_bind_pair(id: string) {

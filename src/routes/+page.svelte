@@ -13,7 +13,7 @@
 	// import RandomScene from '$lib/components/build_team/random/DraftScene.svelte';
 
 	import { onMount } from 'svelte';
-	import { players, captains } from '$lib/stores';
+	import { players, captains, player_pairs } from '$lib/stores';
 	import { browser } from '$app/environment';
 
 	let debugInfo = {
@@ -36,6 +36,10 @@
     		const storedCaptains = localStorage.getItem('captains');
     		if (storedCaptains) {
     			captains.set(JSON.parse(storedCaptains)); // Populate store with local storage data
+    		}
+    		const stored_pairs = localStorage.getItem('player_pairs');
+    		if (stored_pairs) {
+    			player_pairs.set(JSON.parse(stored_pairs)); // Populate store with local storage data
     		}
     	}
 
