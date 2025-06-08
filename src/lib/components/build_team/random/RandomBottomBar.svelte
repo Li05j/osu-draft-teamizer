@@ -118,22 +118,25 @@
 
     $: if ($add_pairs_to_team_signal) {
         const [player1, player2] = $add_pairs_to_team_signal;
-        
+
         teams.update(current_teams => {
             const eligible_teams = findEligibleTeamsForPair(current_teams, player1, player2);
             const selected_team_index = selectRandomTeam(eligible_teams);
-            
+
             if (selected_team_index !== -1) {
                 current_teams[selected_team_index].players.push(player1, player2);
-                console.log(`Added pair to team ${selected_team_index}`); // TODO: Replace these with toast
+                console.log(`Added pair to team ${selected_team_index}`);
             } else {
-                console.warn('No eligible teams found for pair:', player1.tier, player2.tier);
+                console.warn('No eligible teams for pair, falling back to individual assignment');
+                // Fallback to individual assignment
+                addPlayerToTeamSignal.set(player1);
+                // Delay second set to ensure reactivity
+                setTimeout(() => addPlayerToTeamSignal.set(player2), 0);
             }
-            
+
             return current_teams;
         });
-        
-        // Reset signal
+
         // add_pairs_to_team_signal.set(null);
     }
 
