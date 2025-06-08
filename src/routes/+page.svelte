@@ -10,7 +10,7 @@
   	import RandomPlayerList from '$lib/components/import/random/PlayerList.svelte';
 	// import RandomCaptainBar from '$lib/components/build_team/random/CaptainBar.svelte';
 	// import RandomPlayerSidebar from '$lib/components/build_team/random/DraftPlayerSidebar.svelte';
-	// import RandomScene from '$lib/components/build_team/random/DraftScene.svelte';
+	import RandomScene from '$lib/components/build_team/random/RandomScene.svelte';
 
 	import { onMount } from 'svelte';
 	import { players, captains, player_pairs } from '$lib/stores';
@@ -101,7 +101,9 @@
 					<DraftScene />
 				</div>
 			{:else if team_build_type === 'random'}
-				<!-- empty -->
+				<div class="flex-1">
+					<RandomScene />
+				</div>
 			{/if}
 		{/if}
 </div>
