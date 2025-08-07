@@ -1,38 +1,30 @@
-# create-svelte
+# Osu Draft Teamizer
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+An interface written in Svelte for drafting/building tournament teams in the game OSU!.
 
-## Creating a project
+## Try it out:
+https://osu-draft-teamizer-bf3981i97-li05js-projects.vercel.app/
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
+
+- [Upload user info through OSU! API, stored in local storage]
+- [Set captain, bind players, all in a simple few clicks]
+- [An interactive interface to showcase the team building procecss]
+
+## Screenshots
+![screenshot1](screenshots/ss1.png)  
+![screenshot2](screenshots/ss2.png)  
+
+### Requirements
+
+- Node.js (v20)
+- npm
+- SvelteKit (Svelte 5)
+
+### Install & Run
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+git clone https://github.com/Li05j/osu-draft-teamizer.git
+cd your-repo
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
