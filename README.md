@@ -19,7 +19,7 @@ https://osu-draft-teamizer-bf3981i97-li05js-projects.vercel.app/
 
 - Node.js (v20)
 - npm
-- SvelteKit (Svelte 5)
+- SvelteKit (Svelte 4)
 
 ### Install & Run
 
